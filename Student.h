@@ -1,53 +1,40 @@
-#ifndef STUDENT_CLASS
-#define STUDENT_CLASS
+#ifndef STUDENT_H
+#define STUDENT_H
 
-#include <iostream>
 #include <string>
 #include <vector>
-#include <list>
-#include <fstream>
-#include <algorithm>
-#include <numeric>
-#include <iomanip>
-#include <sstream>
-#include <iterator>
-#include <utility>
+#include <iostream>
 
 using namespace std;
 
-//declare but not define!!!!
-class Student{
-    private:
-        string name_;
-        string surname_;
-        vector<int> homework_;
-        double exam_;
-    
-    public:
-    //constructors
-        Student();
-        Student(const string& name, const string& surname, const vector<int>& homework, double exam);
+struct Student
+{
+    string name;            // First name of the student
+    string surname;         // Last name (surname) of the student
+    vector<int> homework;   // List of homework assignment grades
+    double exam;            // Final exam grade
 
-    //getters
-        string getName() const;
-        string getSurname() const;
-        const vector<int>getHomework() const;
-        double getExam() const;
+    // Default constructor: initializes an empty Student object
+    Student();
 
-    //setters
-        void setName(const string& name); 
-        void setSurname(const string& surname);
-        void addHomework(int grade);
-        void setHomework(const vector<int>& homework);
-        void setExam(double exam);  //shouldnt be a const bcwe calculate it (set it by formules)
+    // Parameterized constructor: creates a Student with specified values
+    Student(const string& name, const string& surname,
+            const vector<int>& homework, double exam);
 
-    //calculations
-        double calculateHomeworkAverage() const;
-        double calculateHomeworkMedian() const;
-        double calculateFinalGrade(bool useMedian = false) const; //default value 
+    // --- Calculations ---
+    // Calculates homework average (mean)
+    double calculateHomeworkAverage() const;
 
-    //read from a file
-        bool readFromStream(istream& is, int homeworkCount);
+    // Calculates homework median
+    double calculateHomeworkMedian() const;
+
+    // Calculates final grade:
+    // Final = 0.4 * homework (average or median) + 0.6 * exam
+    double calculateFinalGrade(bool useMedian = false) const;
+
+    // --- Input Functionality ---
+    // Reads student data (name, surname, homework grades, exam grade) from an input stream
+    bool readFromStream(istream& is, int homeworkCount);
 };
 
 #endif
